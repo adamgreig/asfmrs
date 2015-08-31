@@ -24,6 +24,7 @@ fn main() {
     let mut y = [[IQ::new(0f32, 0f32); 3]; 3];
 
     // Three stages of biquad LPF filters to cut off anything above 25kHz
+    // scipy.signal.iirdesign(0.004, 0.006, 1, 40, output='sos')
     const B: [[f32; 3]; 3] = [
         [2.93513065e-04,   2.93513065e-04,   0.00000000e+00],
         [1.00000000e+00,  -1.99950853e+00,   1.00000000e+00],
@@ -53,6 +54,8 @@ fn main() {
         let n = m / 227 + 1;
         let mut filtered: Vec<IQ<f32>> = Vec::with_capacity(n);
         unsafe { filtered.set_len(n) };
+
+        // Do the biquad filtering (TODO clean this up a bit..)
         for (idx, sample) in samples.iter().enumerate() {
             x[0][2] = x[0][1];
             x[0][1] = x[0][0];
@@ -87,10 +90,10 @@ fn main() {
             }
         }
 
+        // FM demodulation with 3-long differentiator
         let mut demod: Vec<f32> = Vec::with_capacity(n);
         let mut d = [IQ::new(0f32, 0f32); 3];
         unsafe { demod.set_len(n) };
-        // FM demodulation with 3-long differentiator
         for (idx, sample) in filtered.iter().enumerate() {
             d[2] = d[1];
             d[1] = d[0];
@@ -102,6 +105,7 @@ fn main() {
         }
 
         // Send audio to the speakers
+        // We actually have 44052.8Hz data which is "pretty close" to 44100Hz.
         let mut buffer = channel.append_data(1, cpal::SamplesRate(44100), n);
         for (sample, value) in buffer.iter_mut().zip(&demod) {
             *sample = (*value * 32767.0f32 + 32767.0f32) as u16;
