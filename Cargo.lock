@@ -5,7 +5,7 @@ dependencies = [
  "airspy 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "portaudio 0.4.17 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.16 (registry+https://github.com/rust-lang/crates.io-index)",
- "sdr 0.5.1",
+ "sdr 0.6.0",
 ]
 
 [[package]]
@@ -78,7 +78,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "sdr"
-version = "0.5.1"
+version = "0.6.0"
 dependencies = [
  "num 0.1.27 (registry+https://github.com/rust-lang/crates.io-index)",
 ]

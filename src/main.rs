@@ -1,9 +1,11 @@
 extern crate airspy;
-extern crate sdr;
 extern crate portaudio;
 
+#[macro_use(chain_blocks)]
+extern crate sdr;
+
 use airspy::{Airspy,IQ};
-use sdr::{downconvert_fs_4,FIR,CIC,FMDemod};
+use sdr::{RealFs4Downconverter,FIR,CIC,FMDemod};
 use portaudio::pa;
 use std::sync::mpsc;
 use std::fs::File;
@@ -45,6 +47,7 @@ fn main() {
     // 3rd order CIC to do final decimation by 4, compensated by a /1 FIR
     // Total 1024 decimation for 19531.25kSps output sample rate
     // Convert to 44102.8kSps for audio output (it's nearly 44100...)
+    let dc = RealFs4Downconverter::new();
     let mut cic1 = CIC::<IQ<i16>>::new(5, 8, 12);
     let mut fir1 = FIR::<IQ<i16>>::cic_compensator(64, 5, 8, 2);
     let mut cic2 = CIC::<IQ<i16>>::new(5, 8, 12);
@@ -70,15 +73,8 @@ fn main() {
 
     loop {
         let x = rx.recv().unwrap();
-        let x = downconvert_fs_4(&x);
-        let x = cic1.process(&x);
-        let x = fir1.process(&x);
-        let x = cic2.process(&x);
-        let x = fir2.process(&x);
-        let x = cic3.process(&x);
-        let x = fir3.process(&x);
-        let x = fm_demod.process(&x);
-        let x = fir4.process(&x);
+        let x = chain_blocks!(
+            x, dc, cic1, fir1, cic2, fir2, cic3, fir3, fm_demod, fir4);
         let x = i16_to_f32(&x);
         let n = x.len() as u32;
         pa_stream.write(x, n)
