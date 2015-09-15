@@ -1,8 +1,12 @@
 [package]
 name = "asfmrs"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Adam Greig <adam@adamgreig.com>"]
 
 [dependencies]
 airspy = "*"
-cpal = "*"
+portaudio = "*"
+rustc-serialize = "*"
+
+[dependencies.sdr]
+path = "/home/adam/Projects/sdr-rs"

@@ -1,9 +1,11 @@
 [root]
 name = "asfmrs"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "airspy 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "cpal 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "portaudio 0.4.17 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.3.16 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sdr 0.5.1",
 ]
 
 [[package]]
@@ -11,7 +13,7 @@ name = "advapi32-sys"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "winapi-build 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -25,42 +27,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "alsa-sys"
-version = "0.0.8"
+name = "bitflags"
+version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "libc 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
- "pkg-config 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "coreaudio-rs"
-version = "0.0.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "coreaudio-sys 0.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "coreaudio-sys"
-version = "0.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "libc 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "cpal"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "alsa-sys 0.0.8 (registry+https://github.com/rust-lang/crates.io-index)",
- "coreaudio-rs 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
- "ole32-sys 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
-]
 
 [[package]]
 name = "libc"
@@ -72,16 +41,8 @@ name = "num"
 version = "0.1.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "rand 0.3.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.3.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.16 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "ole32-sys"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "winapi 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -90,13 +51,24 @@ version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "portaudio"
+version = "0.4.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "bitflags 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num 0.1.27 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pkg-config 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "rand"
-version = "0.3.10"
+version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "advapi32-sys 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -105,8 +77,15 @@ version = "0.3.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "sdr"
+version = "0.5.1"
+dependencies = [
+ "num 0.1.27 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "winapi"
-version = "0.2.2"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
